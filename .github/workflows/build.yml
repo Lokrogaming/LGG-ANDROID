@@ -38,11 +38,21 @@ jobs:
         run: chmod +x android/gradlew
 
       # OPTIONAL: Splash/Icon vorbereiten (ohne sharp!)
-      - name: Prepare Android assets
+            - name: Set Android App Icon
         run: |
-          mkdir -p android/app/src/main/res
-          cp assets/icon.png android/app/src/main/res/icon.png || true
-          cp assets/splash.png android/app/src/main/res/splash.png || true
+          ICON=assets/icon.png
+
+          # Android mipmap folders
+          for SIZE in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p android/app/src/main/res/mipmap-$SIZE
+          done
+
+          # Copy icon into all mipmap folders (quick safe fallback)
+          cp $ICON android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp $ICON android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp $ICON android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp $ICON android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp $ICON android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
       # Build APK
       - name: Build Debug APK
