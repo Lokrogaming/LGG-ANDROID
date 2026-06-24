@@ -1,0 +1,9 @@
+{
+  "appId": "lgg.lovable.app",
+  "appName": "MeineApp",
+  "webDir": "www",
+  "server": {
+    "url": "https://lgg.lovable.app",
+    "cleartext": false
+  }
+}
