@@ -38,7 +38,7 @@ jobs:
         run: chmod +x android/gradlew
 
       # OPTIONAL: Splash/Icon vorbereiten (ohne sharp!)
-            - name: Set Android App Icon
+      - name: Set Android App Icon
         run: |
           ICON=assets/icon.png
 
