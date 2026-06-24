@@ -13,6 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Node (wichtig für Capacitor 8)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -21,26 +22,35 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Capacitor CLI
-        run: npm install @capacitor/cli
-
+      # Capacitor sync
       - name: Sync Capacitor
         run: npx cap sync android
 
+      # Java für Gradle
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
+      # Gradle Permission fix
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
-      - name: Build APK
+      # OPTIONAL: Splash/Icon vorbereiten (ohne sharp!)
+      - name: Prepare Android assets
+        run: |
+          mkdir -p android/app/src/main/res
+          cp assets/icon.png android/app/src/main/res/icon.png || true
+          cp assets/splash.png android/app/src/main/res/splash.png || true
+
+      # Build APK
+      - name: Build Debug APK
         run: |
           cd android
           ./gradlew assembleDebug
 
+      # Upload APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
